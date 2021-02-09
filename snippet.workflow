@@ -1,5 +1,5 @@
 
-// Copyright 2016, VMware, Inc. All Rights Reserved
+// Copyright 2021, VMware, Inc. All Rights Reserved
 
 //
 // VMware vRealize Orchestrator action sample
@@ -14,6 +14,9 @@
 // guestRebootTimeoutMinutes - number
 //
 //Return type: void
+
+// Original Workflow from Dan Linsley
+// https://code.vmware.com/samples/1143/reboot-guest-os-on-vsphere-vm-and-wait-#code
 
 vm.rebootGuest();
 
@@ -38,7 +41,7 @@ while (true) {
         timedOut = true;
         break;
     }
-    System.log("_toolsNotRunning: "+"toolsNotRunning")
+    System.log("Shutting down...")
     System.log("vmTools: "+vm.guest.toolsStatus.value)
     if (vm.guest.toolsStatus.value == "toolsNotRunning") {
         System.log("VM = '" + vm.name + "', Tools Status = '" + vm.guest.toolsStatus.value + "'");
@@ -55,9 +58,9 @@ while (true) {
         timedOut = true;
         break;
     }
-    System.log("toolsOk: "+"toolsOk")
+    System.log("Restarting...")
     System.log("vmTools: "+vm.guest.toolsStatus.value)
-    if (vm.guest.toolsStatus.value == "toolsOk") {
+    if (vm.guest.toolsStatus.value == "toolsOk" || vm.guest.toolsStatus.value == "toolsOld") {
         System.log("VM = '" + vm.name + "', Tools Status = '" + vm.guest.toolsStatus.value + "'");
         break;
     }
